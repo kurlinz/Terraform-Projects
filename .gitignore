@@ -1,0 +1,18 @@
+# Ignore all .tfstate and backup files recursively
+**/*.tfstate
+**/*.tfstate.*
+
+# Ignore all .terraform directories recursively
+**/.terraform/
+
+# Optionally, ignore crash logs and plan outputs
+crash.log
+*.tfplan
+*.tfvars
+
+# Ignore azure-qr-code app directory
+function-app/azure-qr-code/
+
+var.sh
+
+aztfexport
