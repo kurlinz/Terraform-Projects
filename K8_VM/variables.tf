@@ -37,4 +37,5 @@ variable "ssh_key_path" {
 
 variable "subscription_id" {
   type    = string
+  default = ""
 }
