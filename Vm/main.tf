@@ -50,16 +50,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     username   = "adminuser"
     public_key = file(var.ssh_key_path) 
   }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y nginx",
-      "sudo systemctl start nginx",
-      "sudo systemctl enable nginx",
-      "sudo sh -c 'echo \"<html><body><h1>Hello from Azure VM!</h1><p>This is a test page served by Nginx.</p></body></html>\" > /var/www/html/index.html'",
-    ]
-  }
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
