@@ -7,7 +7,7 @@ variable "Vnet_name" {
 variable "VM_name" {
   description = "The name of the Virtual Machine"
   type        = set(string)
-  default     = ["myVm1", "myVm2"]
+  default     = ["master1", "master2", "master3", "worker1", "worker2", "worker3"]
 }
 
 variable "environment" {
@@ -32,9 +32,9 @@ variable "ssh_key_path" {
   description = "SSH key pair for the VM"
   type        = string
   default     = "C:\\Users\\KUB00093\\.ssh\\id_rsa.pub" # Path to your public key
-  
+
 }
 
 variable "subscription_id" {
-  type    = string
+  type = string
 }

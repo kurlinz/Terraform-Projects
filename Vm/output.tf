@@ -23,5 +23,9 @@ output "Location_of_the_resources" {
 output "VN_address_space" {
   description = "The address space of the Virtual Network"
   value       = azurerm_virtual_network.vnet.address_space
+}
 
+output "pub-ip" {
+  description = "The public IP address of the admin VM"
+  value       = azurerm_public_ip.admin-pip
 }
