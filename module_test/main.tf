@@ -13,6 +13,10 @@
 #   resource_group_name = "myResourceGroup"
 # }
 
-module "aks" {
-  source = "../aks"
+module "aks_cluster" {
+  source = "../aks_cluster"
+
+  resource_group_location      = "Germany West Central"
+  resource_group_name_prefix   = "rg-aks"
+  node_count                   = 2
 }
