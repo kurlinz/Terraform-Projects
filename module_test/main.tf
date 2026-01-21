@@ -12,3 +12,7 @@
 #   location            = "Germany West Central"
 #   resource_group_name = "myResourceGroup"
 # }
+
+module "aks" {
+  source = "../aks"
+}
