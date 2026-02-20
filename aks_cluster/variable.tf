@@ -4,10 +4,9 @@ variable "resource_group_location" {
   description = "Location of the resource group."
 }
 
-variable "resource_group_name_prefix" {
+variable "resource_group_name" {
   type        = string
-  default     = "kubeops-aks"
-  description = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
+  default     = "aks-rg"
 }
 
 variable "node_count" {
@@ -15,7 +14,9 @@ variable "node_count" {
   description = "The initial quantity of nodes for the node pool."
   default     = 2
 }
-
+variable "cluster_name" {
+  default = "aks-cluster"
+}
 variable "msi_id" {
   type        = string
   description = "The Managed Service Identity ID. Set this value if you're running this example using Managed Identity as the authentication method."
