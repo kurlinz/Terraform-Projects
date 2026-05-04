@@ -3,7 +3,7 @@ name: Build and deploy an app to AKS
 on:
   push:
     paths:
-     - ./K8_VM/**
+     - K8_VM/**
   workflow_dispatch:
 
 env:
