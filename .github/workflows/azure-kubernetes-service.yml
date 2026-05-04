@@ -31,8 +31,8 @@ name: Build and deploy an app to AKS
 
 on:
   push:
-    branches:
-    - feature/aks-gitops
+    paths:
+     - ./aks_cluster/**
   workflow_dispatch:
 
 env:
