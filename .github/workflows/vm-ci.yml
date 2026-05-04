@@ -2,7 +2,7 @@ name: VM CI
 on:
   push:
     paths:
-     - vm/**
+     - K8_VM/**
   workflow_dispatch:
 
 jobs:
