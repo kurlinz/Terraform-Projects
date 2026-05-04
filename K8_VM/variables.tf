@@ -1,7 +1,7 @@
 variable "Vnet_name" {
   description = "Name of the Vnet"
   type        = string
-  default     = "myVnet"
+  default     = "Vnet"
 }
 
 variable "VM_name" {
