@@ -32,7 +32,7 @@ name: Build and deploy an app to AKS
 on:
   push:
     paths:
-     - ./aks_cluster/**
+     - aks_cluster/**
   workflow_dispatch:
 
 env:
