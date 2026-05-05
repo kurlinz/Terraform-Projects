@@ -32,7 +32,7 @@ resource "azurerm_network_security_group" "nsg" {
 
   security_rule {
     name                       = "http-allow"
-    priority                   = 100
+    priority                   = 103
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
@@ -105,5 +105,5 @@ resource "azurerm_linux_virtual_machine" "vm" {
   #resource block for tags
   tags = {
     environment = var.environment
-  }
-}
+  }     
+}     
