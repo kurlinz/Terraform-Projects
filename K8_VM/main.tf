@@ -32,7 +32,7 @@ resource "azurerm_network_security_group" "nsg" {
 
   security_rule {
     name                       = "http-allow"
-    priority                   = 103
+    priority                   = 102
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
