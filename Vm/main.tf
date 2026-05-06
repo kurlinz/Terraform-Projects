@@ -9,20 +9,20 @@ resource "azurerm_virtual_network" "vnet" {
   name                = var.Vnet_name
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
-  address_space       = ["10.10.0.0/16"]
+  address_space       = var.vnet_address_space
 }
 
 # Create a Subnet
 resource "azurerm_subnet" "subnet" {
-  name                 = "mySubnet"
+  name                 = var.subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.10.1.0/24"]
+  address_prefixes     = var.subnet_add_prefix
 }
 
 # Network Security Group to allow SSH (TCP 22) into the subnet
 resource "azurerm_network_security_group" "ssh_nsg" {
-  name                = "ssh-nsg"
+  name                = var.sg_name
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -68,12 +68,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name             = azurerm_resource_group.rg.name
   location                        = var.location
   size                            = "Standard_DS1_v2"
-  admin_username                  = "adminuser"
+  admin_username                  = var.vm_username
   network_interface_ids           = [azurerm_network_interface.nic[each.key].id]
   disable_password_authentication = false # Changed to true to disable password auth
 
   admin_ssh_key {
-    username   = "adminuser"
+    username   = var.vm_username
     public_key = file(var.ssh_key_path)
   }
   os_disk {
