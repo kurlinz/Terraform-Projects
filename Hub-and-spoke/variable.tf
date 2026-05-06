@@ -1,23 +1,22 @@
 variable "location" {
   description = "Location of the network"
-  default     = "Germany West Central"
+  type        = string
 }
 
 variable "username" {
   description = "Username for Virtual Machines"
-  default     = "azureuser"
+  type        = string
 }
 
 variable "password" {
   description = "Password for Virtual Machines"
   sensitive   = true
-  default     = null
 }
 
 variable "vmsize" {
   description = "Size of the VMs"
-  default     = "Standard_DS1_v2"
+  type        = string
 }
 variable "subscription_id" {
-  
+  type = string
 }

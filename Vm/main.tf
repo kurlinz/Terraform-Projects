@@ -1,50 +1,3 @@
-# Resource block to create resource group
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.location
-}
-
-# Create a Virtual Network
-resource "azurerm_virtual_network" "vnet" {
-  name                = var.Vnet_name
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-  address_space       = var.vnet_address_space
-}
-
-# Create a Subnet
-resource "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = var.subnet_add_prefix
-}
-
-# Network Security Group to allow SSH (TCP 22) into the subnet
-resource "azurerm_network_security_group" "ssh_nsg" {
-  name                = var.sg_name
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  security_rule {
-    name                       = "Allow-SSH-Inbound"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-    description                = "Allow SSH from anywhere"
-  }
-}
-
-# Associate the Network Security Group to the subnet
-resource "azurerm_subnet_network_security_group_association" "subnet_nsg_assoc" {
-  subnet_id                 = azurerm_subnet.subnet.id
-  network_security_group_id = azurerm_network_security_group.ssh_nsg.id
-}
 
 # Resource block to create linux Virtual Machine
 resource "azurerm_network_interface" "nic" {
@@ -52,7 +5,7 @@ resource "azurerm_network_interface" "nic" {
   name = "myNIC-${each.value}"
   # Using for_each to create multiple NICs based on VM names
   for_each            = var.VM_name
-  location            = var.location
+  location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
@@ -66,7 +19,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                            = each.value
   for_each                        = var.VM_name
   resource_group_name             = azurerm_resource_group.rg.name
-  location                        = var.location
+  location                        = azurerm_resource_group.rg.location
   size                            = "Standard_DS1_v2"
   admin_username                  = var.vm_username
   network_interface_ids           = [azurerm_network_interface.nic[each.key].id]
@@ -99,8 +52,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
 # create public IP for admin vm
 resource "azurerm_public_ip" "admin-pip" {
   name                = "admin_pip"
-  location            = var.location
-  resource_group_name = var.resource_group_name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
 }
 
@@ -108,7 +61,7 @@ resource "azurerm_public_ip" "admin-pip" {
 # Nic for admin vm with public IP
 resource "azurerm_network_interface" "nic_admin" {
   name                = "admin-nic"
-  location            = var.location
+  location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
