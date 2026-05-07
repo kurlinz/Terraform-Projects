@@ -4,13 +4,13 @@ resource "azurerm_network_security_group" "ssh_nsg" {
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
   security_rule {
-    name                       = "SSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
+    name                       = var.sg-rule-name
+    priority                   = var.sg-priority-number
+    direction                  = var.sg-direction
+    access                     = var.sg-access
+    protocol                   = var.sg-access-protocol
     source_port_range          = "*"
-    destination_port_range     = "22"
+    destination_port_range     = var.destination-port-range
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
