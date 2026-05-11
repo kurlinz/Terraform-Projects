@@ -8,6 +8,9 @@ variable "location" {
   type        = string
   default     = "Germany West Central"
 }
+variable "rg-name" {
+  type = string
+}
 
 variable "subnet_id" {
   description = "id of subnet"

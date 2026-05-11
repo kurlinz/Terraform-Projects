@@ -2,7 +2,7 @@
 resource "azurerm_network_security_group" "ssh_nsg" {
   name                = var.sg_name
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.rg-name
   security_rule {
     name                       = var.sg-rule-name
     priority                   = var.sg-priority-number
