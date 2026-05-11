@@ -1,11 +1,11 @@
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = var.VM_name
-  resource_group_name             = azurerm_resource_group.rg.name
-  location                        = azurerm_resource_group.rg.location
-  size                            = "Standard_DS1_v2"
+  resource_group_name             = var.rg-name
+  location                        = var.location
+  size                            = var.vm_size
   admin_username                  = var.vm_username
-  network_interface_ids           = var.
-  disable_password_authentication = false # Changed to true to disable password auth
+  network_interface_ids           = var.network_interface_id
+  disable_password_authentication = var.disable-password-auth# Changed to true to disable password auth
 
   admin_ssh_key {
     username   = var.vm_username
@@ -23,7 +23,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 
-  computer_name = "myvm"
+  computer_name = var.VM_name
 
   #resource block for tags
   tags = {
