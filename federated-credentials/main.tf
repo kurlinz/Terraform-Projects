@@ -29,7 +29,7 @@ module "federated_credentials" {
   federated_identity_credential_name = "gh-fic"
   user_assigned_identity_id          = module.gh_usri.user_assigned_identity_id
   rg_name                            = var.rg
-  subject                            = "repo:${var.gh_usr_org}:${var.gh_repo_name}/refs:refs/heads/${var.gh_branch_name}"
+  subject                            = "repo:${var.gh_usr_org}/${var.gh_repo_name}:ref:refs/heads/${var.gh_branch_name}"
   audience_name                      = local.default_audience_name
   issuer_url                         = local.github_issuer_url
   depends_on                         = [module.rg, module.gh_usri]
