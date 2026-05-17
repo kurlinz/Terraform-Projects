@@ -1,62 +1,33 @@
-# Generate random resource group name
-
-resource "azurerm_resource_group" "rg" {
-  location = var.resource_group_location
-  name     = var.resource_group_name
+module "rg" {
+  source   = "../modules/resource-group"
+  name     = var.rg
+  location = var.location
+  tags     = var.tags
 }
-
-resource "random_pet" "azurerm_kubernetes_cluster_dns_prefix" {
-  prefix = "dns"
+module "vnet" {
+  source               = "../modules/Vnet"
+  Vnet_name            = var.vnet_name
+  location             = module.rg.location
+  resource_group_name  = module.rg.name
+  vnet_address_space   = var.vnet_address_space
+  subnet_name          = var.subnet_name
+  subnet_address_space = var.subnet_address_space
 }
-
-resource "azurerm_virtual_network" "aks" {
-  name                = "aks-vnet"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  address_space       = ["10.0.0.0/8"]
+module "ssh-key" {
+  source = "../modules/ssh-key"
+  resource_group_id = module.rg.id
+  resource_group_location = module.rg.location
 }
-
-resource "azurerm_subnet" "aks_nodes" {
-  name                 = "aks-nodes"
-  address_prefixes     = ["10.240.0.0/16"]
-  virtual_network_name = azurerm_virtual_network.aks.name
-  resource_group_name  = azurerm_resource_group.rg.name
-}
-
-# resource "azurerm_subnet" "subnet-alb" {
-#   name                 = "subnet-alb"
-#   address_prefixes     = ["10.241.0.0/24"]
-#   virtual_network_name = azurerm_virtual_network.aks.name
-#   resource_group_name  = azurerm_resource_group.rg.name
-
-#   delegation {
-#     name = "agc-delegation"
-#     service_delegation {
-#       name = "Microsoft.ServiceNetworking/trafficControllers"
-#     }
-#   }
-# }
-#   A subnet with delegation to Microsoft.ServiceNetworking/trafficControllers
-#   is created on the app_gw_for_containers.ps1 script.
-
-resource "azurerm_kubernetes_cluster" "k8s" {
-  location            = azurerm_resource_group.rg.location
-  name                = var.cluster_name
-  resource_group_name = azurerm_resource_group.rg.name
-  dns_prefix          = random_pet.azurerm_kubernetes_cluster_dns_prefix.id
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-  default_node_pool {
-    name           = "agentpool"
-    vm_size        = "Standard_D2_v2"
-    node_count     = var.node_count
-    vnet_subnet_id = azurerm_subnet.aks_nodes.id
-  }
-
-  network_profile {
-    network_plugin = "azure"
-  }
+module "aks" {
+  source              = "../modules/aks"
+  resource_group_name = module.rg.name
+  location            = module.rg.location
+  cluster_name        = var.aks-name
+  admin_username      = var.username
+  node-pool-name      = var.node_pool_name
+  node_count          = var.node_count
+  node-pool-vm-size   = var.vm_size
+  ssh_key             = module.ssh-key.key_data
+  vnet_subnet_id      = module.vnet.subnet_id
+  auto-scaling        = var.auto-scaling
 }

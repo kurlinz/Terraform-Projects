@@ -1,25 +1,46 @@
-variable "resource_group_location" {
-  type        = string
-  default     = "Germany West Central"
-  description = "Location of the resource group."
+variable "rg" {
+  type = string
 }
-
-variable "resource_group_name" {
-  type        = string
-  default     = "aks-rg"
+variable "location" {
+  type = string
 }
-
+variable "tags" {
+  type = map(string)
+}
+variable "vnet_name" {
+  type = string
+}
+variable "vnet_address_space" {
+  type = tuple([ string ])
+}
+variable "subnet_name" {
+  type = string
+}
+variable "subnet_address_space" {
+  type = tuple([ string ])
+}
+variable "aks-name" {
+  type = string
+}
+variable "node_pool_name" {
+  type = string
+}
 variable "node_count" {
-  type        = number
-  description = "The initial quantity of nodes for the node pool."
-  default     = 2
+  type = number
 }
-variable "cluster_name" {
-  default = "aks-cluster"
+variable "auto-scaling" {
+  type = bool
 }
-variable "msi_id" {
-  type        = string
-  description = "The Managed Service Identity ID. Set this value if you're running this example using Managed Identity as the authentication method."
-  default     = null
+variable "vm_size" {
+  type    = string
+  default = "Standard_D2_v2"
 }
-
+variable "username" {
+  type = string
+}
+variable "enable_azure_policy" {
+  type = bool
+}
+variable "aks_tags" {
+  type = map(string)
+}

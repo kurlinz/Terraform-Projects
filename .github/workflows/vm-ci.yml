@@ -16,7 +16,8 @@ jobs:
           working-directory: ./K8_VM
       steps:
         # Checks out the repository this file is in
-        - uses: actions/checkout@v4
+        - name: Checkout repository
+          uses: actions/checkout@v4
 
         # Logs in with your Azure credentials
         - name: Azure login
