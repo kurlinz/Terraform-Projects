@@ -22,3 +22,7 @@ variable "workspace_id" {
   description = "The ID of the Azure Monitor workspace"
   type        = string
 }
+variable "grafana-version" {
+  description = "The major version of Grafana to use"
+  type        = string
+}

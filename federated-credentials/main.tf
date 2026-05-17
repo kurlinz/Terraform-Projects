@@ -11,28 +11,25 @@ module "rg" {
 module "storage_account" {
   source               = "../modules/storage"
   storage_account_name = var.storage_acct_name
-  location             = var.location
-  resource_group_name  = var.rg
+  location             = module.rg.location
+  resource_group_name  = module.rg.name
   container-name       = var.container_name
-  depends_on           = [module.rg]
 }
 module "gh_usri" {
   source     = "../modules/user-assigned-identity"
   name       = var.gh_usri_name
-  location   = var.location
-  rg_name    = var.rg
+  location   = module.rg.location
+  rg_name    = module.rg.name
   tags       = var.tag
-  depends_on = [module.rg]
 }
 module "federated_credentials" {
   source                             = "../modules/federated-identity-credential"
   federated_identity_credential_name = "gh-fic"
   user_assigned_identity_id          = module.gh_usri.user_assigned_identity_id
-  rg_name                            = var.rg
+  rg_name                            = module.rg.name
   subject                            = "repo:${var.gh_usr_org}/${var.gh_repo_name}:ref:refs/heads/${var.gh_branch_name}"
   audience_name                      = local.default_audience_name
   issuer_url                         = local.github_issuer_url
-  depends_on                         = [module.rg, module.gh_usri]
 }
 module "Container_role_assignment" {
   source       = "../modules/role-assignment"
