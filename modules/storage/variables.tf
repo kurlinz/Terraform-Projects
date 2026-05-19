@@ -12,6 +12,6 @@ variable "location" {
   default     = "Germany West Central"
   
 }
-variable "container-name" {
+variable "container_name" {
   type = string
 }

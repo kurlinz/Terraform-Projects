@@ -1,3 +1,7 @@
+data "azurerm_subscription" "subscription" {
+  
+}
+
 module "rg" {
   source   = "../modules/resource-group"
   name     = var.rg
@@ -13,7 +17,7 @@ module "storage_account" {
   storage_account_name = var.storage_acct_name
   location             = module.rg.location
   resource_group_name  = module.rg.name
-  container-name       = var.container_name
+  container_name       = var.container_name
 }
 module "gh_usri" {
   source     = "../modules/user-assigned-identity"
@@ -40,7 +44,7 @@ module "Container_role_assignment" {
 }
 module "sub_role_assignment" {
   source       = "../modules/role-assignment"
-  scope_id     = module.gh_usri.user_assigned_identity_id
+  scope_id     = data.azurerm_subscription.subscription.id
   role_name    = "contributor"
   principal_id = module.gh_usri.user_assigned_identity_principal_id
   depends_on   = [module.gh_usri]

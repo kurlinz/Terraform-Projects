@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "sa" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_storage_container" "name" {
-  name = var.container-name
-  storage_account_id = azurerm_storage_account.sa.id
+resource "azurerm_storage_container" "container" {
+  name = var.container_name
+  storage_account_name = azurerm_storage_account.sa.name
 }
