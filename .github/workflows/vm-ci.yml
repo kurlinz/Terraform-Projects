@@ -1,19 +1,20 @@
-name: VM CI
+name: AKS CI
 on:
   push:
     paths:
-     - K8_VM/**
+     -  
   workflow_dispatch:
+permissions:
+    contents: read
+    id-token: write
 
+    
 jobs:
   login-to-azure:
-      permissions:
-        contents: read
-        id-token: write
       runs-on: ubuntu-latest
       defaults:
         run:
-          working-directory: ./K8_VM
+          working-directory: ./
       steps:
         # Checks out the repository this file is in
         - name: Checkout repository
