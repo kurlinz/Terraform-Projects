@@ -14,8 +14,8 @@ module "vnet" {
   subnet_address_space = var.subnet_address_space
 }
 module "ssh-key" {
-  source = "../modules/ssh-key"
-  resource_group_id = module.rg.id
+  source                  = "../modules/ssh-key"
+  resource_group_id       = module.rg.id
   resource_group_location = module.rg.location
 }
 module "aks" {

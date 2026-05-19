@@ -11,13 +11,13 @@ variable "vnet_name" {
   type = string
 }
 variable "vnet_address_space" {
-  type = tuple([ string ])
+  type = tuple([string])
 }
 variable "subnet_name" {
   type = string
 }
 variable "subnet_address_space" {
-  type = tuple([ string ])
+  type = tuple([string])
 }
 variable "aks-name" {
   type = string

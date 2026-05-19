@@ -2,28 +2,50 @@ name: AKS CI
 on:
   push:
     paths:
-     -  
+     - aks_cluster/**
   workflow_dispatch:
 permissions:
     contents: read
     id-token: write
 
-    
+env:
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
 jobs:
-  login-to-azure:
+  terraform-plan:
       runs-on: ubuntu-latest
       defaults:
         run:
-          working-directory: ./
+          working-directory: ./aks_cluster
       steps:
         # Checks out the repository this file is in
         - name: Checkout repository
           uses: actions/checkout@v4
 
-        # Logs in with your Azure credentials
-        - name: Azure login
-          uses: azure/login@v2
+        - name: setup terraform
+          uses: hashicorp/setup-terraform@v2
+
+        - name: Terraform Initialize
+          run: |
+            terraform init \
+              -backend-config="storage_account_name=${{ secrets.STORAGE_ACCOUNT_NAME }}" \
+              -backend-config="container_name=${{ secrets.CONTAINER_NAME }}" \
+              -backend-config="resource_group_name=${{ secrets.RESOURCE_GROUP_NAME }}" \
+              -backend-config="key=${{ secrets.TFSTATE_KEY }}"
+        
+        - name: Terraform fmt
+          run: terraform fmt -check
+
+        - name: Terraform validate
+          run: terraform validate
+
+        - name: tfsec
+          uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
           with:
-            client-id: ${{ secrets.AZURE_CLIENT_ID }}
-            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            tfsec_args: --soft-fail
+            github_token: ${{ github.token }}
+
+
+
