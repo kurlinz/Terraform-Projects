@@ -18,7 +18,6 @@ module "ssh-key" {
   resource_group_id       = module.resource-group.id
   resource_group_location = module.resource-group.location
 }
-
 module "aks" {
   source              = "../modules/aks"
   resource_group_name = module.resource-group.name
