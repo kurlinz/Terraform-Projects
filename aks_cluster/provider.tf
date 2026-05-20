@@ -13,7 +13,6 @@ terraform {
       source  = "hashicorp/random"
       version = "~>3.0"
     }
-
     azuread = {
       source  = "hashicorp/azuread"
       version = "~>2.0"
@@ -31,14 +30,3 @@ provider "azurerm" {
   }
   use_oidc = true
 }
-provider "azapi" {
-  use_oidc = true
-}
-provider "random" {
-  
-}
-provider "azuread" {
-  use_oidc = true
-  
-}
-
