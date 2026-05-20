@@ -12,6 +12,7 @@ env:
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_USE_AZUREAD_AUTH: true
 
 jobs:
   terraform-plan:
@@ -27,12 +28,12 @@ jobs:
         - name: setup terraform
           uses: hashicorp/setup-terraform@v2
 
-        - name: Azure Login
-          uses: azure/login@v2
-          with:
-            client-id: ${{ secrets.AZURE_CLIENT_ID }}
-            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        # - name: Azure Login
+        #   uses: azure/login@v2
+        #   with:
+        #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
         - name: Terraform Initialize
           run: |

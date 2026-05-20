@@ -30,4 +30,5 @@ provider "azurerm" {
     }
   }
   use_oidc = true
+  
 }
