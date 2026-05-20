@@ -76,6 +76,14 @@ jobs:
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+        - name: Terraform Initialize backend
+          run: |
+            terraform init \
+              -backend-config="storage_account_name=${{ secrets.STORAGE_ACCOUNT_NAME }}" \
+              -backend-config="container_name=${{ secrets.CONTAINER_NAME }}" \
+              -backend-config="resource_group_name=${{ secrets.RESOURCE_GROUP_NAME }}" \
+              -backend-config="key=${{ secrets.TFSTATE_KEY }}"
+              
         - name: Download plan artifact
           uses: actions/download-artifact@v4
           with:
@@ -83,13 +91,9 @@ jobs:
             path: aks_cluster/
 
         - name: Terraform apply
-          run: |
-            terraform apply \
-              -var-file=terraform.tfvars \
-              -auto-approve plan.tfplan
+          run: terraform apply -auto-approve plan.tfplan
 
   
-
 
 
 
