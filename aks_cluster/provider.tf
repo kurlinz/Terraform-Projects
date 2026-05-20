@@ -39,5 +39,6 @@ provider "random" {
 }
 provider "azuread" {
   use_oidc = true
+  
 }
 
