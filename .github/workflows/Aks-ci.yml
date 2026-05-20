@@ -45,7 +45,7 @@ jobs:
         - name: Terraform plan
           run: |
             terraform plan \
-              -var-file=terraform.tfvars \
+              -var-file=./terraform.tfvars \
               -out plan.tfplan
 
         - name: Upload plan artifact
@@ -63,7 +63,7 @@ jobs:
         - name: Terraform apply
           run: |
             terraform apply \
-            -var-file=terraform.tfvars \
+            -var-file=./terraform.tfvars \
             -auto-approve plan.tfplan
 
   
