@@ -23,7 +23,6 @@ terraform {
     use_oidc = true
   }
 }
-
 provider "azurerm" {
   features {
     resource_group {
@@ -31,5 +30,5 @@ provider "azurerm" {
     }
   }
   use_oidc = true
-  
+
 }
