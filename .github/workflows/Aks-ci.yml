@@ -45,6 +45,7 @@ jobs:
         - name: Terraform plan
           run: |
             terraform plan \
+              -lock=false \
               -var-file=terraform.tfvars \
               -out plan.tfplan
 
