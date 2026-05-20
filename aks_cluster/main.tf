@@ -1,4 +1,4 @@
-module "rg" {
+module "resource-group" {
   source   = "../modules/resource-group"
   name     = var.rg
   location = var.location
@@ -7,22 +7,22 @@ module "rg" {
 module "vnet" {
   source               = "../modules/Vnet"
   Vnet_name            = var.vnet_name
-  location             = module.rg.location
-  resource_group_name  = module.rg.name
+  location             = module.resource-group.location
+  resource_group_name  = module.resource-group.name
   vnet_address_space   = var.vnet_address_space
   subnet_name          = var.subnet_name
   subnet_address_space = var.subnet_address_space
 }
 module "ssh-key" {
   source                  = "../modules/ssh-key"
-  resource_group_id       = module.rg.id
-  resource_group_location = module.rg.location
+  resource_group_id       = module.resource-group.id
+  resource_group_location = module.resource-group.location
 }
 
 module "aks" {
   source              = "../modules/aks"
-  resource_group_name = module.rg.name
-  location            = module.rg.location
+  resource_group_name = module.resource-group.name
+  location            = module.resource-group.location
   cluster_name        = var.aks-name
   admin_username      = var.username
   node-pool-name      = var.node_pool_name
