@@ -54,6 +54,33 @@ jobs:
             name: tfplan
             path: aks_cluster/plan.tfplan
 
+  terraform-apply:
+      needs: terraform-validate
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: ./aks_cluster 
+      steps:
+        # Checks out the repository this file is in
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: setup terraform
+          uses: hashicorp/setup-terraform@v2
+
+        - name: Azure Login
+          uses: azure/login@v2  
+          with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+        - name: Download plan artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: tfplan  
+            path: aks_cluster/
+
         - name: Terraform apply
           run: |
             terraform apply \

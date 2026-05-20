@@ -8,7 +8,6 @@
 # Optionally, ignore crash logs and plan outputs
 crash.log
 *.tfplan
-*.tfvars
 
 # Ignore azure-qr-code app directory
 function-app/azure-qr-code/
