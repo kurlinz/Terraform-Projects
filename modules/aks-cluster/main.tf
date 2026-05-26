@@ -5,6 +5,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix = var.aks_name
   role_based_access_control_enabled = true
   tags = var.tags
+  sku_tier = "Free"
 
   default_node_pool {
     name = "default"

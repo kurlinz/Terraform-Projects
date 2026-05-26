@@ -91,7 +91,9 @@ jobs:
             path: aks_cluster/
 
         - name: Terraform apply
-          run: terraform apply -auto-approve plan.tfplan
+          run: |
+            terraform refresh -lock=false -var-file=terraform.tfvars
+            terraform apply -auto-approve plan.tfplan
 
   
 
